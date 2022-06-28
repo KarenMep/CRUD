@@ -5,6 +5,7 @@ function App() {
 
   const [tarea, setTarea] = React.useState('');
   const [tareas, setTareas] = React.useState([]);
+  const [modoEdicion, setModoEdicion] = React.useState(false)
 
   const agregarTarea = e => {
     e.preventDefault()
@@ -25,6 +26,13 @@ function App() {
   const eliminarTarea = id => {
     const arrayFiltrado = tareas.filter(item => item.id !== id)
     setTareas(arrayFiltrado)
+  }
+
+  const editar = item => {
+    console.log(item)
+    setModoEdicion(true)
+
+    setTarea(item.nombreTarea)
   }
 
   return (
@@ -48,7 +56,8 @@ function App() {
                     </button>
 
                   <button 
-                  className="btn btn-warning btn-sm float-right">
+                  className="btn btn-warning btn-sm float-right"
+                  onClick={() => editar(item)}>
                     Editar
                     </button>
 
@@ -60,7 +69,11 @@ function App() {
           </ul>
         </div>
         <div className="col-4">
-          <h4 className="text-center">Formulario</h4>
+          <h4 className="text-center">
+            {
+              modoEdicion ? 'Editar tarea' : 'Agregar tarea'
+            }
+          </h4>
           <form onSubmit={agregarTarea}>
             <input 
               type="text" 
@@ -68,7 +81,16 @@ function App() {
               placeholder='Ingrese tarea'
               onChange={ e => setTarea(e.target.value)}
               value={tarea}/>
-              <button className="btn btn-dark btn-block" type='submit'>Agregar</button>
+
+              {
+                modoEdicion ? (
+                  <button className="btn btn-dark btn-block" type='submit'>Editar</button>
+                ) : (
+                  <button className="btn btn-dark btn-block" type='submit'>Agregar</button>
+                )
+              }
+
+              
           </form>
         </div>
       </div>

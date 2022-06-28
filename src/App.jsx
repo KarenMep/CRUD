@@ -17,9 +17,14 @@ function App() {
 
     setTareas([
       ...tareas,
-      {id: nanoid(), NombreTarea: tarea}
+      {id: nanoid(), nombreTarea: tarea}
     ])
     setTarea('')
+  }
+
+  const eliminarTarea = id => {
+    const arrayFiltrado = tareas.filter(item => item.id !== id)
+    setTareas(arrayFiltrado)
   }
 
   return (
@@ -30,11 +35,28 @@ function App() {
         <div className="col-8">
           <h4 className="text-center">Lista de tareas</h4>
           <ul className="list-group">
-            <li className="list-group-item">
-               <span className="lead">Nombre de la tarea</span>
-               <button className="btn btn-danger btn-sm float-right mx-2">Eliminar</button>
-               <button className="btn btn-warning btn-sm float-right">Editar</button>
-            </li>
+
+            {
+              tareas.map( item => (
+                <li className="list-group-item" key={item.id}>
+                  <span className="lead">{item.nombreTarea}</span>
+
+                  <button 
+                  className="btn btn-danger btn-sm float-right mx-2"
+                  onClick={() => eliminarTarea(item.id)}>
+                    Eliminar
+                    </button>
+
+                  <button 
+                  className="btn btn-warning btn-sm float-right">
+                    Editar
+                    </button>
+
+                </li>
+              ))
+            }
+
+
           </ul>
         </div>
         <div className="col-4">
